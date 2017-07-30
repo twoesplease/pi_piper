@@ -27,23 +27,24 @@ character_timing = { "a" => [dot, dash],             "b" => [dash, dot, dot, dot
 pin = PiPiper::Pin.new(:pin => 17, :direction => :out)
 pin.off
 
-loop do
-  puts "Please type something"
-  something = gets.chomp.downcase
+1.times do
+          puts "Please type something."
+          something = gets.chomp.downcase
 
-  something.each_char do |letter|
-    if letter == " "
-      pin.off
-      sleep medium_gap
-    else
-      character_timing[letter].each do |timing| 
-        pin.on
-        sleep timing
-        pin.off
-        sleep inter_element_gap
-      end
-      sleep short_gap - inter_element_gap
-    end
+          something.each_char do |letter|
+                  if letter == " "
+                          pin.off
+                          sleep medium_gap
+                  else
+                          character_timing[letter].to_a.each do |timing|
+                                  pin.on
+                                  sleep timing
+                                  pin.off
+                                  sleep inter_element_gap
+                          end
+                          sleep short_gap - inter_element_gap
+                  end
+            end
   end
 
-end
+
